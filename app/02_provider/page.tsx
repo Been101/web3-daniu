@@ -11,8 +11,12 @@ export default function Home() {
     const { provider } =
       providers.find((p) => p.info.name === "MetaMask") || {};
     if (provider) {
-      const p = new ethers.BrowserProvider(provider);
-      console.log("provider1", p?.isMetaMask);
+      const ethProvider = new ethers.BrowserProvider(provider);
+      if ("isMetaMask" in ethProvider) {
+        console.log("provider1", ethProvider?.isMetaMask);
+      } else {
+        console.log("isMetaMask is not in p ");
+      }
       console.log("provider2", provider?.isMetaMask);
 
       const a = await provider.request({
@@ -23,7 +27,7 @@ export default function Home() {
       console.log("a121", a);
     }
 
-    console.log("window.ethereum.isMetaMask", window.ethereum.isMetaMask);
+    console.log("window.ethereum.isMetaMask", window.ethereum?.isMetaMask);
 
     // const balance = await provider.getBalance(`vitalik.eth`);
     // console.log("balance", balance);
